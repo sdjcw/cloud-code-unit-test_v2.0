@@ -14,7 +14,7 @@ app.get('/hello', function(req, res) {
 });
 
 app.post('/hello', function(req, res) {
-  res.render('hello', { message: 'hello,' + req.params.name });
+  res.render('hello', { message: 'hello,' + req.body.name });
 });
 
 
