@@ -13,5 +13,10 @@ app.get('/hello', function(req, res) {
   res.render('hello', { message: 'Congrats, you just set up your app!' });
 });
 
+app.post('/hello', function(req, res) {
+  res.render('hello', { message: 'hello,' + req.params.name });
+});
+
+
 // This line is required to make Express respond to http requests.
 app.listen();
