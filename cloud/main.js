@@ -23,6 +23,9 @@ AV.Cloud.beforeSave("TestReview", function(request, response){
 });
 
 AV.Cloud.afterSave("TestReview", function(request) {
+	var testAfterSave = new AV.Object("testAfterSave");
+	testAfterSave.set("post", request.object);
+	testAfterSave.save();
 	var query = new AV.Query("TestPost");
 	query.get(request.object.get("post").id, {
 		success: function(post) {
