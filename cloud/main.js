@@ -39,3 +39,41 @@ AV.Cloud.afterSave("TestReview", function(request) {
 		}
 	});
 });
+var util = require('util');
+AV.Cloud.beforeDelete("Album", function(request, response) {
+  query = new AV.Query("Photo");
+  var album = new AV.Object('Album');
+  album.id = request.object.id;
+  query.equalTo("album", album);
+  query.count({
+    success: function(count) {
+		console.log("count:"+count);
+      if (count > 0) {
+        response.error("Can't delete album if it still has photos.");
+      } else {
+        response.success();
+      }
+    },
+    error: function(error) {
+      response.error("Error " + error.code + " : " + error.message + " when getting photo count.");
+    }
+  });
+});
+AV.Cloud.afterDelete("Album", function(request) {
+  query = new AV.Query("Photo");
+  var album = new AV.Object('Album');
+  album.id = request.object.id;
+  query.equalTo("album", album);
+  query.find({
+    success: function(posts) {
+		console.log('posts:'+posts);
+		posts.forEach(function(post){
+			post.destroy();
+		});
+    },
+    error: function(error) {
+      console.error("Error finding related comments " + error.code + ": " + error.message);
+    }
+  });
+});
+
