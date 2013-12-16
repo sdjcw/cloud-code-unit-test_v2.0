@@ -11,6 +11,10 @@ AV.Cloud.define("cool", function(request, response) {
 	response.success(name.isACoolName(request.params.name));
 });
 
+AV.Cloud.define('testBuffer', function(request, response){
+	var buf = new Buffer('hello');
+	response.success(buf);
+});
 
 AV.Cloud.beforeSave("TestReview", function(request, response){
 	if (request.object.get("stars") < 1) {
