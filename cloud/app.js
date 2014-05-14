@@ -40,6 +40,17 @@ app.get('/profile', function(req, res) {
     }
 });
 
+app.get('/runCool', function(req, res){
+	AV.Cloud.run('cool', {name: 'dennis'}, {
+		success: function(result){
+			res.send(result);
+		},
+		error: function(err){
+			res.send(err);
+		}
+    });
+});
+
 app.post('/hello', function(req, res) {
 	res.render('hello', { message: 'hello,' + req.body.name });
 });
