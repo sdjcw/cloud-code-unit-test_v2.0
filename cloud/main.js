@@ -96,13 +96,14 @@ AV.Cloud.afterDelete("Album", function(request) {
       console.error("Error finding related comments " + error.code + ": " + error.message);
     }
   });
-
-AV.Cloud.verify(type, function(request, response) {
-    if (AV.User.current()) {
-		res.send('verify: ' + type + ", user: " + AV.User.current());
-    } else {
-		res.send({});
-    }
-})
-
 });
+
+AV.Cloud.verify('sms', function(request, response) {
+    if (request.object.id) {
+        console.log("verify: sms, user: " + request.object);
+		response.success();
+    } else {
+		response.error("no user");
+    }
+});
+
