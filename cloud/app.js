@@ -3,6 +3,7 @@ var express = require('express');
 var app = express();
 var name = require('cloud/name.js');
 var avosExpressCookieSession = require('avos-express-cookie-session');
+var fs = require('fs');
 
 // Global app configuration section
 app.set('views', 'cloud/views');  // Specify the folder to find templates
@@ -18,13 +19,15 @@ app.get('/hello', function(req, res) {
 });
 
 app.post('/login', function(req, res) {
-    AV.User.logIn(req.body.username, req.body.password).then(function() {
+    AV.User.logIn(req.body.username, req.body.password).then(
+        function() {
 		res.redirect('/profile');
-    },
-															 function(error) {
-																 res.status = 500;
-																 res.send(error);
-															 });
+        },
+        function(error) {
+            res.status = 500;
+            res.send(error);
+        }
+    );
 });
 
 app.get('/logout', function(req, res) {
@@ -60,7 +63,11 @@ app.post('/isCool', function(req, res) {
 	res.render('hello', { message: cool });
 });
 
-
+app.get('/sources', function(req, res) {
+    fs.readdir('.', function(err, data) {
+        res.send(data);
+    })
+})
 
 // This line is required to make Express respond to http requests.
 app.listen();

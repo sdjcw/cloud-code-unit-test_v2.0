@@ -2,6 +2,8 @@
 // For example:
 var name = require('cloud/name.js');
 require('cloud/app.js')
+var async = require('async');
+
 AV.Cloud.define("hello", function(request, response) {
     console.log(request.user);
 	response.success("Hello world," + request.params.name);
@@ -14,6 +16,16 @@ AV.Cloud.define("cool", function(request, response) {
 AV.Cloud.define('testBuffer', function(request, response){
 	var buf = new Buffer('hello');
 	response.success(buf);
+});
+
+AV.Cloud.define('asyncTest', function(req, res) {
+    var i = 0;
+    async.times(3, function(n, next) {
+        i++;
+        next(null, i);
+    }, function(err, data) {
+        res.success(data);
+    })
 });
 
 AV.Cloud.beforeSave("TestReview", function(request, response){
@@ -84,4 +96,5 @@ AV.Cloud.afterDelete("Album", function(request) {
       console.error("Error finding related comments " + error.code + ": " + error.message);
     }
   });
+
 });
