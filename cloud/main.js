@@ -97,4 +97,12 @@ AV.Cloud.afterDelete("Album", function(request) {
     }
   });
 
+AV.Cloud.verify(type, function(request, response) {
+    if (AV.User.current()) {
+		res.send('verify: ' + type + ", user: " + AV.User.current());
+    } else {
+		res.send({});
+    }
+})
+
 });
