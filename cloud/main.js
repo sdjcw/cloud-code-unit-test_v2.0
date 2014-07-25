@@ -98,9 +98,9 @@ AV.Cloud.afterDelete("Album", function(request) {
   });
 });
 
-AV.Cloud.verify('sms', function(request, response) {
+AV.Cloud.onVerified('sms', function(request, response) {
     if (request.object.id) {
-        console.log("verify: sms, user: " + request.object);
+        console.log("onVerified: sms, user: " + request.object);
 		response.success();
     } else {
 		response.error("no user");
