@@ -63,6 +63,10 @@ app.post('/isCool', function(req, res) {
 	res.render('hello', { message: cool });
 });
 
+app.get('/time', function(req, res) {
+   res.send(new Date());
+})
+
 app.get('/sources', function(req, res) {
     fs.readdir('.', function(err, data) {
         res.send(data);
