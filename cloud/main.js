@@ -46,19 +46,21 @@ AV.Cloud.beforeSave("TestReview", function(request, response){
 AV.Cloud.afterSave("TestReview", function(request) {
 	var testAfterSave = new AV.Object("testAfterSave");
 	var review  = new AV.Object('TestReview');
-	review.id = request.object.Id;
-	testAfterSave.set("review", review);
-	testAfterSave.save();
-	var query = new AV.Query("TestPost");
-	query.get(request.object.get("post").id, {
-		success: function(post) {
-			post.increment("comments");
-			post.save();
-		},
-		error: function(error) {
-			throw "Got an error " + error.code + " : " + error.message;
-		}
-	});
+	//review.id = request.object.Id;
+	//testAfterSave.set("review", review);
+	//testAfterSave.save();
+    if (request.object.get('post') != null) {
+	    var query = new AV.Query("TestPost");
+	    query.get(request.object.get("post").id, {
+	    	success: function(post) {
+	    		post.increment("comments");
+	    		post.save();
+	    	},
+	    	error: function(error) {
+	    		throw "Got an error " + error.code + " : " + error.message;
+	    	}
+	    });
+    }
 });
 var util = require('util');
 AV.Cloud.beforeDelete("Album", function(request, response) {
