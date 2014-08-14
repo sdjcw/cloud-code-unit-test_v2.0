@@ -3,10 +3,17 @@
 var name = require('cloud/name.js');
 require('cloud/app.js')
 var async = require('async');
+var fs = require('fs');
 
 AV.Cloud.define("hello", function(request, response) {
     console.log(request.user);
 	response.success("Hello world," + request.params.name);
+});
+
+AV.Cloud.define("readdir", function(request, response) {
+    fs.readdir('.', function(err, dir) {
+	    response.success(dir);
+    })
 });
 
 AV.Cloud.define("cool", function(request, response) {
