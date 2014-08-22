@@ -20,6 +20,10 @@ AV.Cloud.define("cool", function(request, response) {
 	response.success(name.isACoolName(request.params.name));
 });
 
+AV.Cloud.define("getAppId", function(request, response) {
+	response.success(AV.applicationId);
+});
+
 AV.Cloud.define('testBuffer', function(request, response){
 	var buf = new Buffer('hello');
 	response.success(buf);
