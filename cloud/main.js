@@ -20,6 +20,14 @@ AV.Cloud.define("cool", function(request, response) {
 	response.success(name.isACoolName(request.params.name));
 });
 
+AV.Cloud.define("throwError", function(request, response) {
+	response.success("ok");
+    var f = function() {
+        noThisMethod();
+    }
+    f()
+});
+
 AV.Cloud.define("getAppId", function(request, response) {
 	response.success(AV.applicationId);
 });
