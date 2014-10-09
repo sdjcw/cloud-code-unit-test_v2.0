@@ -4,6 +4,7 @@ var name = require('cloud/name.js');
 require('cloud/app.js')
 var async = require('async');
 var fs = require('fs');
+var assert = require('assert');
 
 AV.Cloud.define("hello", function(request, response) {
     console.log(request.user);
@@ -46,6 +47,18 @@ AV.Cloud.define('asyncTest', function(req, res) {
         res.success(data);
     })
 });
+
+AV.Cloud.define('testCql', function(req, res) {
+  AV.Query.doCloudQuery('select * from GameScore limit 10').then(function(result){
+    console.dir(result);
+    var results = result.results;
+    assert.equal(results.length, 10);
+    assert.equal(results[0].className, "GameScore");
+    assert.equal(result.count, undefined);
+    assert.equal(result.className, 'GameScore');
+    res.success();
+  });
+})
 
 AV.Cloud.beforeSave("TestReview", function(request, response){
 	if (request.object.get("stars") < 1) {
@@ -128,3 +141,8 @@ AV.Cloud.onVerified('sms', function(request, response) {
     }
 });
 
+AV.Cloud.define("testSetTimeout", function(request, response) {
+  setTimeout(function() {
+    response.success();
+  }, 3000)
+})

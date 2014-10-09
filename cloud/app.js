@@ -30,6 +30,11 @@ app.post('/login', function(req, res) {
     );
 });
 
+app.get('/:foo/:bar', function(req, res) {
+  console.log(app)
+  res.send({foo: req.params.foo, bar: req.params.bar})
+})
+
 app.get('/logout', function(req, res) {
     AV.User.logOut();
     res.redirect('/profile');
@@ -72,6 +77,14 @@ app.get('/sources', function(req, res) {
         res.send(data);
     })
 })
+
+app.get("/throwError", function(req, res) {
+  var f = function() {
+      noThisMethod();
+  }
+  f()
+  res.send('ok');
+});
 
 // This line is required to make Express respond to http requests.
 app.listen();
