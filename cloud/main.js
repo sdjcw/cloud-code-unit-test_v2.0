@@ -17,6 +17,10 @@ AV.Cloud.define("readdir", function(request, response) {
     })
 });
 
+AV.Cloud.define("empty", function(request, response) {
+  response.success();
+})
+
 AV.Cloud.define("cool", function(request, response) {
 	response.success(name.isACoolName(request.params.name));
 });
@@ -58,6 +62,10 @@ AV.Cloud.define('testCql', function(req, res) {
     assert.equal(result.className, 'GameScore');
     res.success();
   });
+})
+
+AV.Cloud.define("path", function(req, res) {
+  res.success({"__filename": __filename, "__dirname": __dirname})
 })
 
 AV.Cloud.beforeSave("TestReview", function(request, response){

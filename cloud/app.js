@@ -78,6 +78,10 @@ app.get('/sources', function(req, res) {
     })
 })
 
+app.get('/path', function(req, res) {
+  res.send({"__filename": __filename, "__dirname": __dirname});
+})
+
 app.get("/throwError", function(req, res) {
   var f = function() {
       noThisMethod();
