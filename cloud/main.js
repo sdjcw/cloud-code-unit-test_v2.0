@@ -83,6 +83,12 @@ AV.Cloud.beforeSave("TestReview", function(request, response){
 	}
 });
 
+AV.Cloud.beforeSave("ErrorObject", function(request, response) {
+  var a = {};
+  a.noThisMethod();
+  response.success();
+})
+
 AV.Cloud.afterSave("TestReview", function(request) {
 	var testAfterSave = new AV.Object("testAfterSave");
 	var review  = new AV.Object('TestReview');
