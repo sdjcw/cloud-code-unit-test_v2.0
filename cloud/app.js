@@ -50,7 +50,7 @@ app.get('/profile', function(req, res) {
 
 app.get("/userMatching", function(req, res) {
   setTimeout(function() {
-    res.send(AV.User.current());
+    res.send({reqUser: req.AV.user, currentUser: AV.User.current()});
   }, Math.floor((Math.random() * 2000) + 1));
 });
 

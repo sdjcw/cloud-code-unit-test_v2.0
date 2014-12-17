@@ -70,7 +70,7 @@ AV.Cloud.define("path", function(req, res) {
 
 AV.Cloud.define("userMatching", function(req, res) {
   setTimeout(function() {
-    res.success({reqUser: req.user.username, currentUser: AV.User.current().get('username')});
+    res.success({reqUser: req.user.get('username'), currentUser: AV.User.current().get('username')});
   }, Math.floor((Math.random() * 2000) + 1));
 });
 
