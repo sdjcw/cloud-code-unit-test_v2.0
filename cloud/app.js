@@ -48,6 +48,13 @@ app.get('/profile', function(req, res) {
     }
 });
 
+app.get("/userMatching", function(req, res) {
+  setTimeout(function() {
+    res.send(AV.User.current());
+  }, Math.floor((Math.random() * 2000) + 1));
+});
+
+
 app.get('/runCool', function(req, res){
 	AV.Cloud.run('cool', {name: 'dennis'}, {
 		success: function(result){

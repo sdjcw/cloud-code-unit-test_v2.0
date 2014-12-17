@@ -66,7 +66,13 @@ AV.Cloud.define('testCql', function(req, res) {
 
 AV.Cloud.define("path", function(req, res) {
   res.success({"__filename": __filename, "__dirname": __dirname})
-})
+});
+
+AV.Cloud.define("userMatching", function(req, res) {
+  setTimeout(function() {
+    res.success({reqUser: req.user.username, currentUser: AV.User.current().get('username')});
+  }, Math.floor((Math.random() * 2000) + 1));
+});
 
 AV.Cloud.beforeSave("TestReview", function(request, response){
 	if (request.object.get("stars") < 1) {
