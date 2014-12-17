@@ -6,6 +6,8 @@ var async = require('async');
 var fs = require('fs');
 var assert = require('assert');
 
+var TestObject = AV.Object.extend('TestObject');
+
 AV.Cloud.define("hello", function(request, response) {
     console.log(request.user);
 	response.success("Hello world," + request.params.name);
@@ -70,7 +72,14 @@ AV.Cloud.define("path", function(req, res) {
 
 AV.Cloud.define("userMatching", function(req, res) {
   setTimeout(function() {
-    res.success({reqUser: req.user.get('username'), currentUser: AV.User.current().get('username')});
+    // 为了更加靠谱的验证串号问题，走一次网络 IO
+    var query = new AV.Query(TestObject);
+    query.get('54755078e4b016add4f37fe8', {
+      success: function(obj) {
+        assert.equal(obj.get('foo'), 'bar');
+        res.success({reqUser: req.user.get('username'), currentUser: AV.User.current().get('username')});
+      }
+    })
   }, Math.floor((Math.random() * 2000) + 1));
 });
 

@@ -4,6 +4,7 @@ var app = express();
 var name = require('cloud/name.js');
 var avosExpressCookieSession = require('avos-express-cookie-session');
 var fs = require('fs');
+var assert = require('assert');
 
 // Global app configuration section
 app.set('views', 'cloud/views');  // Specify the folder to find templates
@@ -11,6 +12,8 @@ app.set('view engine', 'ejs');    // Set the template engine
 app.use(express.bodyParser());    // Middleware for reading request body
 app.use(express.cookieParser('test'));
 app.use(avosExpressCookieSession({ cookie: { maxAge: 3600000 },fetchUser: false  }));
+
+var TestObject = AV.Object.extend('TestObject');
 
 // This is an example of hooking up a request handler with a specific request
 // path and HTTP verb using the Express routing API.
@@ -50,7 +53,14 @@ app.get('/profile', function(req, res) {
 
 app.get("/userMatching", function(req, res) {
   setTimeout(function() {
-    res.send({reqUser: req.AV.user, currentUser: AV.User.current()});
+    // 为了更加靠谱的验证串号问题，走一次网络 IO
+    var query = new AV.Query(TestObject);
+    query.get('54755078e4b016add4f37fe8', {
+      success: function(obj) {
+        assert.equal(obj.get('foo'), 'bar');
+        res.send({reqUser: req.AV.user, currentUser: AV.User.current()});
+      }
+    })
   }, Math.floor((Math.random() * 2000) + 1));
 });
 
