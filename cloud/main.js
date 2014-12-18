@@ -77,7 +77,7 @@ AV.Cloud.define("userMatching", function(req, res) {
     query.get('54755078e4b016add4f37fe8', {
       success: function(obj) {
         assert.equal(obj.get('foo'), 'bar');
-        res.success({reqUser: req.user.get('username'), currentUser: AV.User.current().get('username')});
+        res.success({reqUser: req.user, currentUser: AV.User.current()});
       }
     })
   }, Math.floor((Math.random() * 2000) + 1));
