@@ -78,6 +78,8 @@ AV.Cloud.define("userMatching", function(req, res) {
       success: function(obj) {
         assert.equal(obj.get('foo'), 'bar');
         res.success({reqUser: req.user, currentUser: AV.User.current()});
+      }, error: function(err) {
+        res.success({reqUser: req.user, currentUser: AV.User.current()});
       }
     })
   }, Math.floor((Math.random() * 2000) + 1));

@@ -59,6 +59,8 @@ app.get("/userMatching", function(req, res) {
       success: function(obj) {
         assert.equal(obj.get('foo'), 'bar');
         res.send({reqUser: req.AV.user, currentUser: AV.User.current()});
+      }, error: function(err) {
+        res.success({reqUser: req.user, currentUser: AV.User.current()});
       }
     })
   }, Math.floor((Math.random() * 2000) + 1));
