@@ -44,8 +44,8 @@ app.get('/logout', function(req, res) {
 });
 
 app.get('/profile', function(req, res) {
-    if (AV.User.current()) {
-		res.send(AV.User.current());
+    if (req.AV.user) {
+		res.send(req.AV.user);
     } else {
 		res.send({});
     }
