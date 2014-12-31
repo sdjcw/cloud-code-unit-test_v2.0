@@ -9,7 +9,7 @@ var assert = require('assert');
 var TestObject = AV.Object.extend('TestObject');
 
 AV.Cloud.define("hello", function(request, response) {
-    console.log(request.user);
+  console.log(request.user);
 	response.success("Hello world," + request.params.name);
 });
 
@@ -28,11 +28,11 @@ AV.Cloud.define("cool", function(request, response) {
 });
 
 AV.Cloud.define("throwError", function(request, response) {
+  setTimeout(function() {
+    noThisMethod();
+  }, 3000)
 	response.success("ok");
-    var f = function() {
-        noThisMethod();
-    }
-    f()
+  noThisMethod();
 });
 
 AV.Cloud.define("getAppId", function(request, response) {
@@ -43,6 +43,17 @@ AV.Cloud.define('testBuffer', function(request, response){
 	var buf = new Buffer('hello');
 	response.success(buf);
 });
+
+AV.Cloud.define('env', function(req, res) {
+  if (__local) {
+    return res.success('dev');
+  }
+  if (__production == 0) {
+    return res.success('test');
+  } else {
+    return res.success('production');
+  }
+})
 
 AV.Cloud.define('asyncTest', function(req, res) {
     var i = 0;
@@ -177,3 +188,9 @@ AV.Cloud.define("testSetTimeout", function(request, response) {
     response.success();
   }, 3000)
 })
+
+console.log('global scope: test log.');
+
+//setTimeout(function() {
+//  noThisMethod();
+//}, 5000)

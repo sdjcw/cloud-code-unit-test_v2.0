@@ -33,11 +33,6 @@ app.post('/login', function(req, res) {
     );
 });
 
-app.get('/:foo/:bar', function(req, res) {
-  console.log(app)
-  res.send({foo: req.params.foo, bar: req.params.bar})
-})
-
 app.get('/logout', function(req, res) {
     AV.User.logOut();
     res.redirect('/profile');
@@ -102,11 +97,11 @@ app.get('/path', function(req, res) {
 })
 
 app.get("/throwError", function(req, res) {
-  var f = function() {
-      noThisMethod();
-  }
-  f()
+  setTimeout(function () {
+    noThisMethod();
+  })
   res.send('ok');
+  noThisMethod();
 });
 
 // This line is required to make Express respond to http requests.
