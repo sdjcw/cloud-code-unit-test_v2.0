@@ -6,6 +6,10 @@ var async = require('async');
 var fs = require('fs');
 var assert = require('assert');
 
+// require 模块只初始化一次，所以应该只打印一行 "foo init..." 的日志
+var foo = require('cloud/foo.js');
+var foo2 = require('cloud/foo.js');
+
 var TestObject = AV.Object.extend('TestObject');
 
 AV.Cloud.define("hello", function(request, response) {
@@ -136,6 +140,13 @@ AV.Cloud.afterSave("TestReview", function(request) {
 	    });
     }
 });
+
+AV.Cloud.afterUpdate("TestObject", function(request) {
+  console.log('TestObject afterUpdate invoke:', request.object);
+  request.object.set('bizTime', new Date());
+  request.object.save();
+})
+
 var util = require('util');
 AV.Cloud.beforeDelete("Album", function(request, response) {
   query = new AV.Query("Photo");

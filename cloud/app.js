@@ -6,6 +6,8 @@ var avosExpressCookieSession = require('avos-express-cookie-session');
 var fs = require('fs');
 var assert = require('assert');
 
+var foo = require('cloud/foo.js');
+
 // Global app configuration section
 app.set('views', 'cloud/views');  // Specify the folder to find templates
 app.set('view engine', 'ejs');    // Set the template engine
@@ -95,6 +97,8 @@ app.get('/sources', function(req, res) {
 app.get('/path', function(req, res) {
   res.send({"__filename": __filename, "__dirname": __dirname});
 })
+
+console.log('__filename:', __filename, "__dirname": __dirname);
 
 app.get("/throwError", function(req, res) {
   setTimeout(function () {
