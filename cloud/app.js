@@ -98,7 +98,7 @@ app.get('/path', function(req, res) {
   res.send({"__filename": __filename, "__dirname": __dirname});
 })
 
-console.log('__filename:', __filename, "__dirname": __dirname);
+console.log('__filename:', __filename, "__dirname:", __dirname);
 
 app.get("/throwError", function(req, res) {
   setTimeout(function () {
