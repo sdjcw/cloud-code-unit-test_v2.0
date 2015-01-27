@@ -89,7 +89,7 @@ AV.Cloud.define("userMatching", function(req, res) {
   setTimeout(function() {
     // 为了更加靠谱的验证串号问题，走一次网络 IO
     var query = new AV.Query(TestObject);
-    query.get('54755078e4b016add4f37fe8', {
+    query.get('54b625b7e4b020bb5129fe04', {
       success: function(obj) {
         assert.equal(obj.get('foo'), 'bar');
         res.success({reqUser: req.user, currentUser: AV.User.current()});
@@ -185,12 +185,34 @@ AV.Cloud.afterDelete("Album", function(request) {
   });
 });
 
+AV.Cloud.onLogin(function(request, response) {
+  assert(request.object);
+  // 因为此时用户还没有登录，所以用户信息是保存在 request.object 对象中
+  console.log("on login:", request.object);
+  if (request.object.get('username') == 'noLogin') {
+    // 如果是 error 回调，则用户无法登录
+    response.error('Forbidden');
+  } else {
+    // 如果是 success 回调，则用户可以登录
+    response.success();
+  }
+});
+
 AV.Cloud.onVerified('sms', function(request, response) {
     if (request.object.id) {
         console.log("onVerified: sms, user: " + request.object);
 		response.success();
     } else {
 		response.error("no user");
+    }
+});
+
+// onVerified 有无回调都没有意义
+AV.Cloud.onVerified('sms', function(request) {
+    if (request.object.id) {
+        console.log("onVerified: sms, user: " + request.object);
+    } else {
+        console.error("impossible!");
     }
 });
 

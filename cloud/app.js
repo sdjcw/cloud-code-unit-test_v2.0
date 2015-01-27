@@ -52,7 +52,7 @@ app.get("/userMatching", function(req, res) {
   setTimeout(function() {
     // 为了更加靠谱的验证串号问题，走一次网络 IO
     var query = new AV.Query(TestObject);
-    query.get('54755078e4b016add4f37fe8', {
+    query.get('54b625b7e4b020bb5129fe04', {
       success: function(obj) {
         assert.equal(obj.get('foo'), 'bar');
         res.send({reqUser: req.AV.user, currentUser: AV.User.current()});
