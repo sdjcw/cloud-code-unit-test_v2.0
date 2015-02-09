@@ -6,6 +6,9 @@ var async = require('async');
 var fs = require('fs');
 var assert = require('assert');
 
+var moment = require('moment-timezone');
+moment.tz.setDefault('Asia/Shanghai');
+
 // require 模块只初始化一次，所以应该只打印一行 "foo init..." 的日志
 var foo = require('cloud/foo.js');
 var foo2 = require('cloud/foo.js');
