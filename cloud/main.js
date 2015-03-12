@@ -144,6 +144,12 @@ AV.Cloud.afterSave("TestReview", function(request) {
     }
 });
 
+AV.Cloud.beforeSave('TestRemoteAdress', function(request, response) {
+  request.object.set('remoteAddress', request.remoteAddress);
+  request.object.save();
+  response.success();
+});
+
 AV.Cloud.afterUpdate("TestObject", function(request) {
   console.log('TestObject afterUpdate invoke:', request.object);
   request.object.set('bizTime', new Date());
