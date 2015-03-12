@@ -225,6 +225,10 @@ AV.Cloud.define("testSetTimeout", function(request, response) {
   }, 3000)
 })
 
+AV.Cloud.define('testRemoteAddress', function(request, response) {
+  response.success(request.remoteAddress);
+});
+
 console.log('global scope: test log.');
 
 //setTimeout(function() {
