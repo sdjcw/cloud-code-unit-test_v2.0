@@ -6,6 +6,8 @@ var async = require('async');
 var fs = require('fs');
 var assert = require('assert');
 
+require('cloud/test1');
+
 var moment = require('moment-timezone');
 moment.tz.setDefault('Asia/Shanghai');
 

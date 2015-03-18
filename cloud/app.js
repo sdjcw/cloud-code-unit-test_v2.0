@@ -110,3 +110,4 @@ app.get("/throwError", function(req, res) {
 
 // This line is required to make Express respond to http requests.
 app.listen();
+// Bugfix: 云代码最后一行如果是注释，沙箱编译会出错 https://github.com/leancloud/cloud-code/issues/170 
