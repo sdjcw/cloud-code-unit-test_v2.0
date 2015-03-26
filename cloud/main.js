@@ -237,6 +237,16 @@ AV.Cloud.define('testRemoteAddress', function(request, response) {
   response.success(request.remoteAddress);
 });
 
+AV.Cloud.define('infoLog', function(request, response) {
+  console.log('infoLog.....');
+  response.success();
+});
+
+AV.Cloud.define('errorLog', function(request, response) {
+  console.error('errorLog.....');
+  response.success();
+});
+
 console.log('global scope: test log.');
 
 //setTimeout(function() {

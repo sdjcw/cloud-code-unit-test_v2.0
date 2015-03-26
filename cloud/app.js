@@ -108,6 +108,10 @@ app.get("/throwError", function(req, res) {
   noThisMethod();
 });
 
+app.get("/staticMiddlewareTest.html", function(req, res) {
+  res.send('dynamic resource');
+})
+
 // This line is required to make Express respond to http requests.
-app.listen();
+app.listen({'static': {maxAge: 604800000}});
 // Bugfix: 云代码最后一行如果是注释，沙箱编译会出错 https://github.com/leancloud/cloud-code/issues/170 
