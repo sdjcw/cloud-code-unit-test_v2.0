@@ -247,6 +247,10 @@ AV.Cloud.define('errorLog', function(request, response) {
   response.success();
 });
 
+AV.Cloud.define('thumbnailURLTest', function(req, res) {
+  res.success(AV.User.current().get('avatar').thumbnailURL(100, 200));
+})
+
 console.log('global scope: test log.');
 
 //setTimeout(function() {
