@@ -251,6 +251,22 @@ AV.Cloud.define('thumbnailURLTest', function(req, res) {
   res.success(AV.User.current().get('avatar').thumbnailURL(100, 200));
 })
 
+AV.Cloud.define('becomeTest', function(req, res) {
+  if (AV.User.current()) {
+    return res.error('current user should be null');
+  }
+  AV.User.become(req.params.token, {
+    success: function(user) {
+      if (AV.User.current() != user) {
+        return res.error('current user should equal become user');
+      }
+      res.success(user);
+    }, error: function(err, e2) {
+      res.error(err, e2)
+    }
+  })
+})
+
 console.log('global scope: test log.');
 
 //setTimeout(function() {
