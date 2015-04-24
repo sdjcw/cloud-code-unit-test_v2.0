@@ -76,7 +76,6 @@ AV.Cloud.define('asyncTest', function(req, res) {
 
 AV.Cloud.define('testCql', function(req, res) {
   AV.Query.doCloudQuery('select * from GameScore limit 10').then(function(result){
-    console.dir(result);
     var results = result.results;
     assert.equal(results.length, 10);
     assert.equal(results[0].className, "GameScore");
@@ -156,7 +155,7 @@ AV.Cloud.afterUpdate("TestObject", function(request) {
   console.log('TestObject afterUpdate invoke:', request.object);
   request.object.set('bizTime', new Date());
   request.object.save();
-})
+});
 
 var util = require('util');
 AV.Cloud.beforeDelete("Album", function(request, response) {
@@ -199,7 +198,7 @@ AV.Cloud.afterDelete("Album", function(request) {
 AV.Cloud.onLogin(function(request, response) {
   assert(request.object);
   // 因为此时用户还没有登录，所以用户信息是保存在 request.object 对象中
-  console.log("on login:", request.object);
+  console.log("on login:", request.object.get('username'));
   if (request.object.get('username') == 'noLogin') {
     // 如果是 error 回调，则用户无法登录
     response.error('Forbidden');
@@ -230,8 +229,8 @@ AV.Cloud.onVerified('sms', function(request) {
 AV.Cloud.define("testSetTimeout", function(request, response) {
   setTimeout(function() {
     response.success();
-  }, 3000)
-})
+  }, 3000);
+});
 
 AV.Cloud.define('testRemoteAddress', function(request, response) {
   response.success(request.remoteAddress);
@@ -249,7 +248,7 @@ AV.Cloud.define('errorLog', function(request, response) {
 
 AV.Cloud.define('thumbnailURLTest', function(req, res) {
   res.success(AV.User.current().get('avatar').thumbnailURL(100, 200));
-})
+});
 
 AV.Cloud.define('becomeTest', function(req, res) {
   if (AV.User.current()) {
@@ -262,10 +261,24 @@ AV.Cloud.define('becomeTest', function(req, res) {
       }
       res.success(user);
     }, error: function(err, e2) {
-      res.error(err, e2)
+      res.error(err, e2);
     }
-  })
-})
+  });
+});
+
+AV.Cloud.define('errorCode', function(req, res) {
+  AV.User.logIn('NoThisUser', 'lalala', {
+    error: function(user, err) {
+      res.error(err);
+      // 客户端收到的响应： {"code":211,"error":"Could not find user"}
+    }
+  });
+});
+
+AV.Cloud.define('customErrorCode', function(req, res) {
+  res.error({code: 123, message: 'custom error message'});
+  // 客户端收到的响应： {"code":123,"error":"custom error message"}
+});
 
 console.log('global scope: test log.');
 
