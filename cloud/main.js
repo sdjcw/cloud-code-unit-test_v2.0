@@ -6,6 +6,9 @@ var async = require('async');
 var fs = require('fs');
 var assert = require('assert');
 
+var moment = require("moment-timezone");
+console.log(moment(new Date()).tz('Asia/Shanghai').format("YYYY-MM-DD HH:mm:ss"));
+
 require('cloud/test1');
 
 // require 模块只初始化一次，所以应该只打印一行 "foo init..." 的日志
@@ -49,6 +52,20 @@ AV.Cloud.define('testBuffer', function(request, response){
 	var buf = new Buffer('hello');
 	response.success(buf);
 });
+
+AV.Cloud.define('userPointerTest', function(req, res) {
+  var testObject = new TestObject();
+  testObject.set('foo', 'bar');
+  testObject.set('user', req.user);
+  testObject.save(null, {
+    success: function() {
+      res.success();
+    },
+    error: function(obj, err) {
+      res.error(err);
+    }
+  })
+})
 
 AV.Cloud.define('env', function(req, res) {
   if (__local) {
@@ -276,6 +293,15 @@ AV.Cloud.define('customErrorCode', function(req, res) {
   res.error({code: 123, message: 'custom error message'});
   // 客户端收到的响应： {"code":123,"error":"custom error message"}
 });
+
+
+AV.BigQuery.on('end', function(err, result) {
+  assert.deepEqual({
+    "id" : "job id",
+    "status": "OK/ERROR",
+    "message": "当 status 为 ERROR 时的错误消息"
+  }, result);
+})
 
 console.log('global scope: test log.');
 
