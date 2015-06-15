@@ -4,6 +4,7 @@ var app = express();
 var name = require('cloud/name.js');
 var avosExpressCookieSession = require('avos-express-cookie-session');
 var fs = require('fs');
+var session = require('cookie-session');
 var assert = require('assert');
 
 var foo = require('cloud/foo.js');
@@ -14,6 +15,10 @@ app.set('view engine', 'ejs');    // Set the template engine
 app.use(express.bodyParser());    // Middleware for reading request body
 app.use(express.cookieParser('test'));
 app.use(avosExpressCookieSession({ cookie: { maxAge: 3600000 },fetchUser: false  }));
+
+app.use(session({
+    keys: ['key1', 'key2']
+}))
 
 var TestObject = AV.Object.extend('TestObject');
 
@@ -110,6 +115,12 @@ app.get("/throwError", function(req, res) {
 
 app.get("/staticMiddlewareTest.html", function(req, res) {
   res.send('dynamic resource');
+})
+
+app.get("/session", function (req, res, next) {
+  var n = req.session.views || 0
+  req.session.views = ++n
+  res.end(n + ' views')
 })
 
 // This line is required to make Express respond to http requests.
