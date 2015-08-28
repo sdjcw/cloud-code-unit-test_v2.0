@@ -295,13 +295,13 @@ AV.Cloud.define('customErrorCode', function(req, res) {
 });
 
 
-AV.BigQuery.on('end', function(err, result) {
+AV.Insight.on('end', function(err, result) {
   assert.deepEqual({
     "id" : "job id",
     "status": "OK/ERROR",
     "message": "当 status 为 ERROR 时的错误消息"
   }, result);
-})
+});
 
 console.log('global scope: test log.');
 
